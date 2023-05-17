@@ -1,3 +1,5 @@
+# Original project: [Creating Node.js REST APIs for AWS S3 - Upload, List, and Delete files](https://siddharthac6.medium.com/creating-node-js-rest-apis-for-aws-s3-upload-list-and-delete-files-608cc3569c0b)
+# Original repo: https://github.com/SiddharthaChowdhury/AWS_S3_Node_REST
 # AWS: Create IAM User
 Create IAM user AWS with [ **Access type**: `Programmatic access` ], I named mine `ex3_s333`
 
