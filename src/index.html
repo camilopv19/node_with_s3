@@ -1,0 +1,33 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>S3</title>
+  </head>
+  <body>
+    <h1>Client</h1>
+    <div>
+      <button id="btnGet">Get bucket objects</button>
+    </div>
+    <ul id="list"></ul>
+    <script>
+      const btn = document.getElementById("btnGet");
+      btn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const data = await fetch("/list?folderName=public_asset");
+        const reader = data.json().then(({ data }) => {
+          //   console.log("data", data);
+          if (data.Contents && data.Contents.length > 0) {
+            const list = document.getElementById("list");
+            data.Contents.forEach(({ Key }) => {
+              let childNode = document.createElement("li");
+              childNode.innerHTML = Key;
+              list.appendChild(childNode);
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
