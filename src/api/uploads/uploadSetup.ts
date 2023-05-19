@@ -2,7 +2,7 @@ import AWS from 'aws-sdk';
 import multer, { FileFilterCallback } from "multer"
 import multerS3 from "multer-s3";
 import {Request} from 'express';
-import { v4 as uuidv4 } from 'uuid';
+import { foldername } from '../../constants';
 
 AWS.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -17,13 +17,8 @@ const fileFilter = (req: Request, file: Express.Multer.File, callback: FileFilte
     if(isAllowedMimetype(fileMime)) {
         callback(null, true)
     } else {
-        callback(null, false)
+        callback(new Error('Only image files allowed'))
     }
-}
-const getUniqFileName = (originalname: string) => {
-    const name = uuidv4();
-    const ext = originalname.split('.').pop();
-    return `${name}.${ext}`;
 }
 
 export const handleUploadMiddleware = multer({
@@ -31,14 +26,10 @@ export const handleUploadMiddleware = multer({
     storage: multerS3({
         s3: S3,
         bucket: process.env.AWS_BUCKET_NAME!,
-        acl: 'public-read',
+        // acl: 'public-read', // AccessControlListNotSupported: The bucket does not allow ACLs
         contentType: multerS3.AUTO_CONTENT_TYPE,
         key: function (_: Request, file: any, cb) {
-            const fileName = getUniqFileName(file.originalname);
-            const s3_inner_directory = 'public_asset';
-            const finalPath = `${s3_inner_directory}/${fileName}`;
-
-            file.newName = fileName;
+            const finalPath = `${foldername}/${file.originalname}`;
 
             cb(null, finalPath );
         }

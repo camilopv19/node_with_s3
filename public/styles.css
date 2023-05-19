@@ -1,0 +1,53 @@
+li {
+  display: flex;
+  align-items: center;
+}
+
+.container {
+  /* Key here is margin-left needs to be auto */
+  margin: 0 20% 0 auto;
+}
+ 
+button {
+  border-radius: 5px;
+  border: none;
+  color: white;
+  padding: 5px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin-top: 5px;
+}
+
+.delete {
+  background-color: #f70a45;
+}
+.delete:hover {
+  background-color: #fc7294;
+}
+
+.upload {
+  background-color: #4caf50; /* Green */
+}
+.upload:hover {
+  background-color: #40e647; /* Green */
+}
+.upload:disabled, .upload:disabled:hover {
+  background-color: gray; /* Green */
+}
+
+.info {
+  background-color: #0a9cf7; /* blue */
+}
+.info:hover {
+  background-color: #076dad; /* blue */
+}
+
+.get {
+  background-color: #f0ec1d; /* yellow */
+  color: black;
+}
+.get:hover {
+  background-color: #fffa0a; /* yellow */
+  color: black;
+}

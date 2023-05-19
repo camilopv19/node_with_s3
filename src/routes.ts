@@ -3,17 +3,22 @@ import { handleUploadMiddleware } from "./api/uploads/uploadSetup";
 import api_uploadFiles from "./api/uploads/api_uploadFiles";
 import api_deleteFiles from "./api/uploads/api_deleteFiles";
 import api_ListFiles from "./api/uploads/api_listFiles";
+import api_downloadFiles from "./api/downloads/api_downloadFiles";
 import path from "path";
+import { api_db, api_db_create } from "./db";
 
 const router = express.Router();
+
+router.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname + "/index.html")); //__dirname : It will resolve to your project folder.
+});
 
 router.get("/ping", (req: Request, res: Response) => {
   res.send("pong");
 });
 
-router.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname + "/index.html")); //__dirname : It will resolve to your project folder.
-});
+router.get("/db", api_db);
+router.get("/db/create", api_db_create);
 
 // Accept maximum 5 files
 router.post(
@@ -22,6 +27,7 @@ router.post(
   api_uploadFiles
 );
 
+router.get("/download", api_downloadFiles);
 router.delete("/remove", api_deleteFiles);
 router.get("/list", api_ListFiles);
 
