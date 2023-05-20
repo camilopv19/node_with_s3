@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "6c8fac14-05ae-4897-8195-b8bf2136a6fe",
+		"_postman_id": "f5172d37-ff9b-4ea4-9bbf-a7fd5ba2d234",
 		"name": "file upload",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26207642"
 	},
 	"item": [
 		{
@@ -23,7 +24,10 @@
 						{
 							"key": "input_files",
 							"type": "file",
-							"src": []
+							"src": [
+								"YZMWbm627/Light.JPG",
+								"YZMWbm627/Mind puzzle.png"
+							]
 						}
 					]
 				},
@@ -47,7 +51,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"fileKeys\": [\"public_asset/a5ecae22-8106-4bca-ba08-688e5662b36d.jpg\"]\r\n}",
+					"raw": "{\r\n    \"fileKeys\": [\"public_asset/package-l2ock.json\"]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -90,7 +94,67 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "1. Connect MySQL DB",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/db",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"db"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create table",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/db/create",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"db",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "download file",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/download?file=file_name.jpg",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"download"
+					],
+					"query": [
+						{
+							"key": "file",
+							"value": "file_name.jpg"
+						}
+					]
+				}
+			},
+			"response": []
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }
