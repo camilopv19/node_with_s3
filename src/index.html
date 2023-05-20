@@ -22,7 +22,12 @@
       <button class="get" id="btnGet" onclick="getFiles()">
         Get bucket objects
       </button>
-      <button class="info" id="btnGet" onclick="">Get random name</button>
+      <div>
+        <button class="info" id="btnGet" onclick="getMetadata()">
+          Get metadata from random image
+        </button>
+        <ul id="randomImg"></ul>
+      </div>
     </div>
     <ul id="list"></ul>
     <script>
@@ -110,6 +115,24 @@
         //Getting data
         const data = await fetch("/list?folderName=public_asset");
         data.json().then(({ data }) => listElements(data));
+      };
+      // GET METADATA
+      const getMetadata = async () => {
+        //Getting data
+        const data = await fetch("/list?folderName=public_asset");
+        data.json().then(({ data }) => {
+          document.getElementById("randomImg").innerHTML = "";
+          if (data.Contents && data.Contents.length > 0) {
+            const randomImg = document.getElementById("randomImg");
+            const randomIdx = Math.floor(Math.random() * data.Contents.length );
+            console.log('data.Contents[randomIdx]', );
+            Object.keys(data.Contents[randomIdx]).forEach((Key) => {
+              let listNode = document.createElement("li");
+              listNode.innerHTML = `<b>${Key}:</b>  ${data.Contents[randomIdx][Key]}`;
+              randomImg.appendChild(listNode);
+            });
+          }
+        });
       };
 
       // DELETE
