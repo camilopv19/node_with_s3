@@ -1,9 +1,15 @@
 {
-  "env":{
+  "env": {
     "PORT": 4000,
     "AWS_ACCESS_KEY_ID": "",
     "AWS_SECRET_KEY": "",
     "AWS_BUCKET_NAME": "",
-    "AWS_REGION": ""
+    "AWS_REGION": "",
+    "MY_SQL_DB_HOST": "",
+    "MY_SQL_DB_USER": "",
+    "MY_SQL_DB_PASSWORD": "",
+    "MY_SQL_DB_PORT": 3306,
+    "MY_SQL_DB_DATABASE": "",
+    "MY_SQL_DB_CONNECTION_LIMIT": "4"
   }
 }

@@ -5,7 +5,7 @@ import api_deleteFiles from "./api/uploads/api_deleteFiles";
 import api_ListFiles from "./api/uploads/api_listFiles";
 import api_downloadFiles from "./api/downloads/api_downloadFiles";
 import path from "path";
-import { api_db, api_db_create } from "./db";
+import { api_db, api_db_query } from "./db";
 
 const router = express.Router();
 
@@ -17,8 +17,9 @@ router.get("/ping", (req: Request, res: Response) => {
   res.send("pong");
 });
 
+// DB functions
+router.get("/db/query", api_db_query);
 router.get("/db", api_db);
-router.get("/db/create", api_db_create);
 
 // Accept maximum 5 files
 router.post(

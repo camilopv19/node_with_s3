@@ -1,10 +1,27 @@
-import {Request, Response} from "express";
+import { Request, Response } from "express";
+import { Iimage, db_insert } from "../../db";
 
-const api_uploadFiles = (req: Request, res: Response) => {
+type FilesObject =  Express.Multer.File & {
+    etag: string,
+    key: string,
+    storageClass: string,
+    location: string
+}
+
+const api_uploadFiles = ({ files }: Request, res: Response) => {
     res.status(200);
+
+    // Only for DB purposes
+    if (Array.isArray(files)) {
+        const [firstFile] = files as FilesObject[];
+        if ('etag' in firstFile && 'size' in firstFile) {
+            const { etag, size, key, originalname, storageClass, location } = firstFile;
+            db_insert({ etag, size, key, originalname, storageClass, location });
+          }
+    }
     return res.json({
-        msg: "Uploaded!", 
-        files: req.files
+        msg: "Uploaded!",
+        files: files
     });
 }
 

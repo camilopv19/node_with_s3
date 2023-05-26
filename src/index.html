@@ -46,7 +46,6 @@
           const list = document.getElementById("list");
           data.Contents.forEach(({ Key }, index) => {
             const [_, fileName] = Key.split("/");
-            console.log("fileName", fileName);
             //Delete button for each element
             let upBtn = document.createElement("button");
             upBtn.innerHTML = "Delete this object";
@@ -76,8 +75,6 @@
 
       // UPLOAD
       const upload = async () => {
-        // const form = document.getElementById("upForm");
-        // const formdata = new FormData(form);
         const formdata = new FormData();
         const input = document.getElementById("file");
         const file = input.files[0];
@@ -125,7 +122,6 @@
           if (data.Contents && data.Contents.length > 0) {
             const randomImg = document.getElementById("randomImg");
             const randomIdx = Math.floor(Math.random() * data.Contents.length );
-            console.log('data.Contents[randomIdx]', );
             Object.keys(data.Contents[randomIdx]).forEach((Key) => {
               let listNode = document.createElement("li");
               listNode.innerHTML = `<b>${Key}:</b>  ${data.Contents[randomIdx][Key]}`;
@@ -143,7 +139,6 @@
           },
         },
       }) => {
-        console.log("id", id);
         let response = await fetch("/remove", {
           method: "DELETE",
           headers: {

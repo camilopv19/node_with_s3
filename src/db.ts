@@ -1,26 +1,29 @@
 import mysql from "mysql2";
 import { Request, Response } from "express";
-import { DATA_SOURCES, Queries } from "./constants";
+import { Queries } from "./constants";
 
-const dataSource = DATA_SOURCES.mySqlDataSource;
+export interface Iimage {
+  etag: string,
+  size: number,
+  key: string,
+  originalname: string,
+  storageClass: string,
+  location: string
+}
 let conn: mysql.Connection;
+const db_params = {
+  host: process.env.MY_SQL_DB_HOST || "",
+  user: process.env.MY_SQL_DB_USER || "",
+  password: process.env.MY_SQL_DB_PASSWORD || "",
+  port: Number(process.env.MY_SQL_DB_PORT) || 3306,
+};
 
-export const api_db = (req: Request, res: Response) => {
-  conn = mysql.createConnection({
-    host: dataSource.DB_HOST,
-    user: dataSource.DB_USER,
-    password: dataSource.DB_PASSWORD,
-    port: dataSource.DB_PORT,
-  });
-  conn.connect(function (err) {
+export const api_db_query = (req: Request, res: Response) => {
+  execute(Queries.getAll, [], (err: Error, result: any) => {
     if (err) {
-      console.debug("--------------ERROR", err);
-      res.status(204).send("error connecting: " + err.stack);
+      return res.send("error connecting: " + err.stack);
     }
-    console.debug("Connected!");
-    return res
-      .status(200)
-      .json({ msg: "MySql Adapter Connection generated successfully" });
+    res.send(result);
   });
 };
 
@@ -30,13 +33,7 @@ export const execute = (
   callback: Function
 ) => {
   // const queryString = "INSERT INTO ProductOrder (product_id, customer_id, product_quantity) VALUES (?, ?, ?)"
-  conn = mysql.createConnection({
-    host: dataSource.DB_HOST,
-    user: dataSource.DB_USER,
-    database: dataSource.DB_DATABASE,
-    password: dataSource.DB_PASSWORD,
-    port: dataSource.DB_PORT,
-  });
+  conn = mysql.createConnection(db_params);
   if (!conn)
     callback(
       "Connection was not created. Ensure Connection is created when running the app."
@@ -52,13 +49,35 @@ export const execute = (
   });
 };
 
-export const api_db_create = (req: Request, res: Response) => {
-  const query: string = Queries.createTable;
-//   const query: string = Queries.createDB;
+export const api_db = (req: Request, res: Response) => {
+  const { obj } = req.query;
+  const table = obj === "table";
+  const query: string = table ? Queries.createTable : Queries.createDB;
   execute(query, [], (err: Error, result: any) => {
     if (err) {
       return res.send("error connecting: " + err.stack);
     }
     res.send(result);
   });
+};
+
+
+export const db_insert = ({ etag, size, key: _key, originalname, storageClass, location }: Iimage) => {
+  execute(
+    Queries.insert,
+    { etag, size, _key, originalname, storageClass, location },
+    (err: Error, result: any) => {
+      if (err) {
+        throw new Error("error connecting: " + err.stack);
+      }
+    }
+  );
+};
+export const db_delete = (key: string) => {
+  execute(Queries.deleteImg, key, (err: Error, result: any) => {
+    if (err) {
+      return("error connecting: " + err.stack);
+    }
+  }
+  );
 };
