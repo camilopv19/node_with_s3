@@ -10,6 +10,9 @@
     "MY_SQL_DB_PASSWORD": "",
     "MY_SQL_DB_PORT": 3306,
     "MY_SQL_DB_DATABASE": "",
-    "MY_SQL_DB_CONNECTION_LIMIT": "4"
+    "MY_SQL_DB_CONNECTION_LIMIT": "4",
+    "AWS_SNS_TOPIC": "",
+    "AWS_SQS_QUEUE": "",
+    "DB_WRITE": false
   }
 }
