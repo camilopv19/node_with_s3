@@ -40,16 +40,8 @@ export async function pollSQSMessages(): Promise<void> {
 
       await sqs.deleteMessageBatch(deleteParams).promise();
     }
-
-    // Continue polling for more messages
-    // setTimeout(pollSQSMessages, 0);
   } catch (error) {
     console.error('Error processing SQS messages:', error);
     throw error;
   }
 }
-
-// Start the message polling process
-// pollSQSMessages().catch((error) => {
-//   console.error('Unexpected error occurred:', error);
-// });

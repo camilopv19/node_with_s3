@@ -9,19 +9,27 @@ type FilesObject = Express.Multer.File & {
     location: string
 }
 
-const api_uploadFiles = ({ files }: Request, res: Response) => {
+const api_uploadFiles = ({ protocol, hostname, socket: { localPort }, files}: Request, res: Response) => {
     res.status(200);
 
     // Only for DB purposes
     if (Array.isArray(files)) {
         const [firstFile] = files as FilesObject[];
+        const { etag, size, key, originalname, mimetype, storageClass, location } = firstFile;
         if (process.env.DB_WRITE !== "false") {
             if ('etag' in firstFile && 'size' in firstFile) {
-                const { etag, size, key, originalname, storageClass, location } = firstFile;
                 db_insert({ etag, size, key, originalname, storageClass, location });
             }
         }
-        send_sqs(firstFile.originalname + ' was uploaded');
+
+        const fullUrl = `${protocol}://${hostname}:${localPort}`;
+        const msg = `A new file was uploaded: 
+        Name: ${originalname} 
+        Size: ${size / 1000} kb
+        Extension: ${mimetype}
+        Download link: ${fullUrl}/download?file=${originalname}`;
+        console.log('msg', msg);
+        send_sqs(msg);
     }
     return res.json({
         msg: "Uploaded!",

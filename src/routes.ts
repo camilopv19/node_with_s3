@@ -4,14 +4,13 @@ import api_uploadFiles from "./api/uploads/api_uploadFiles";
 import api_deleteFiles from "./api/uploads/api_deleteFiles";
 import api_ListFiles from "./api/uploads/api_listFiles";
 import api_downloadFiles from "./api/downloads/api_downloadFiles";
-import path from "path";
 import { api_db, api_db_query } from "./db";
 import { api_poll, api_sns_sqs } from "./api/sns_sqs/api";
 
 const router = express.Router();
 
 router.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname + "/index.html")); //__dirname : It will resolve to your project folder.
+  res.render('template');
 });
 
 router.get("/ping", (req: Request, res: Response) => {

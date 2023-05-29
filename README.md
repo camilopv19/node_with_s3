@@ -43,7 +43,34 @@ To do so, from **"Servises"** -> click **"S3"**
 2. `npm start`
 
 
+## Tasks (traning for AWS dev cert)
+### PART 1: Implement a subscription feature in your web application
 
-    
+1. Update your web application to include the following functions:
+   - download an image by name
+   - show metadata for the existing images
+   - upload an image
+   - delete an image by name
+   - get metadata for a random image
 
 
+2. After uploading some images, make some SQL queries to the RDS instance bypassing the web-application – for example, from the EC2 instances over SSH.
+3. The image metadata should include last update date, name, size in bytes, and file extension.
+### PART 2: Implement a subscription feature in your web application
+
+1. Create a standard SQS queue named -uploads-notification-queue.
+2. Create an SNS topic named -uploads-notification-topic.
+3. Add two new endpoints in your web-applications :
+
+    - subscribe an email for notifications
+    - unsubscribe an email from notifications
+
+4. After a user visits the subscription endpoint, the specified email should receive a confirmation message.
+5. Whenever a user visits the unsubscription endpoint, AWS should stop sending the email notifications.
+6. Whenever an image is uploaded using your web application, a message describing that event should be published to the SQS queue.
+7. Update your web-application to run a scheduled background process which extracts the SQS messages in batch and sends them to the SNS topic.
+8. The SNS notifications should be in plain text which includes:
+    - an explanation that an image has been uploaded
+    - the image metadata (size, name, extension)
+    - a link to the web application endpoint for downloading the image
+    - Optional: add an additional attribute to the message your app will send to the SNS topic (such as an image extension) and configure the filtering policy for subscriptions to accept messages with a specific attribute value (such as .png).

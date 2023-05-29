@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "f5172d37-ff9b-4ea4-9bbf-a7fd5ba2d234",
+		"name": "file upload",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26207642"
+	},
+	"item": [
+		{
+			"name": "upload file",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept-Encoding",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "input_files",
+							"type": "file",
+							"src": []
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:4000/upload",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete file",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fileKeys\": [\"public_asset/package.json\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/remove",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"remove"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "list files in folder",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/list?folderName=public_asset",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"list"
+					],
+					"query": [
+						{
+							"key": "folderName",
+							"value": "public_asset"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all DB",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/db/query",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"db",
+						"query"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create db and table",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/db?obj=table",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"db"
+					],
+					"query": [
+						{
+							"key": "obj",
+							"value": "table"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "download file",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/download?file=Before.JPG",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"download"
+					],
+					"query": [
+						{
+							"key": "file",
+							"value": "Before.JPG"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Public EC2 list files in folder",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://3.86.255.163:4000/list?folderName=public_asset",
+					"protocol": "http",
+					"host": [
+						"3",
+						"86",
+						"255",
+						"163"
+					],
+					"port": "4000",
+					"path": [
+						"list"
+					],
+					"query": [
+						{
+							"key": "folderName",
+							"value": "public_asset"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sub/unsubscribe to SNS_SQS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/email/unsub?email=your_user_email@gmail.com",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"email",
+						"unsub"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "your_user_email@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Poll and Send messages",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/poll",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"poll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insert MySQL",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"img\": {\r\n        \"ETag\": \"example-etag\",\r\n        \"ObjKey\": \"example-objkey\",\r\n        \"LastModified\": \"example-lastmodified\",\r\n        \"Size\": 100,\r\n        \"StorageClass\": \"example-storageclass\",\r\n        \"location\": \"example-location\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/db",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"db"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
