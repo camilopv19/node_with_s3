@@ -12,7 +12,7 @@ export async function pollSQSMessages(): Promise<void> {
     const receiveParams = {
       QueueUrl: queueUrl || '',
       MaxNumberOfMessages: batchSize,
-      WaitTimeSeconds: 20, // Long polling for messages
+      WaitTimeSeconds: 10, // Long polling for messages
     };
 
     const response = await sqs.receiveMessage(receiveParams).promise();

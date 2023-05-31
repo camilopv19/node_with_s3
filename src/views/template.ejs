@@ -28,6 +28,14 @@
       <button class="info" id="btnGet" onclick="getMetadata()">
         Get metadata from random image
       </button>
+      <div>
+        <button class="info" id="btnPoll" onclick="triggerLambda()">
+          Trigger Lambda directly
+        </button>
+        <button class="info" id="btnPoll" onclick="triggerAPIGateway()">
+          Trigger lambda by API Gateway
+        </button>
+      </div>
       <ul id="randomImg"></ul>
     </div>
   </div>
@@ -198,67 +206,23 @@
       link.click();
       document.body.removeChild(link);
     };
-
-    //POLL AND PUBLISH SQS (CONTINUOS PROCESS)
-    const poll = async () => {
-      // Configure AWS SDK with your credentials and desired region
-      AWS.config.update({
-        accessKeyId: '<%= process.env.AWS_ACCESS_KEY_ID %>',
-        secretAccessKey: '<%= process.env.AWS_SECRET_KEY %>',
-        region: '<%= process.env.AWS_REGION %>' // Replace with your desired region
+    const triggerAPIGateway = async () => { 
+      const data = await fetch("https://api-gateway/route", {
+        method: "GET"
       });
-
-      // Create an SQS service object
-      const batchSize = 10; // Number of messages to retrieve in each batch
-      const sqs = new AWS.SQS({
-        region: '<%= process.env.AWS_REGION %>',
-        apiVersion: '2012-11-05'
+      console.log('API Gateway response', data);
+      console.log(new Date());
+    }
+    const triggerLambda = async () => { 
+      const data = await fetch("https://lambda-url-with-cors-and-custom-headers", {
+        method: "GET",
+        headers:{
+          "detail-type": "WEB APP"
+        }
       });
-      const sns = new AWS.SNS({ region: '<%= process.env.AWS_REGION %>' });
-      const queueUrl = '<%= process.env.AWS_SQS_QUEUE %>';
-      const topicArn = '<%= process.env.AWS_SNS_TOPIC %>';
-      const receiveParams = {
-        QueueUrl: queueUrl || '',
-        MaxNumberOfMessages: batchSize,
-        WaitTimeSeconds: 20, // Long polling for messages
-      };
-
-      const response = await sqs.receiveMessage(receiveParams).promise();
-
-      if (response.Messages && response.Messages.length > 0) {
-        const publishPromises = response.Messages.map((message) => {
-          const publishParams = {
-            TopicArn: topicArn,
-            Message: message.Body,
-          };
-
-          return sns.publish(publishParams).promise();
-        });
-
-        await Promise.all(publishPromises);
-        alert(response.Messages.length + ' messages were delivered! '+new Date())
-
-        // Delete the processed messages from the SQS queue
-        const deleteParams = {
-          QueueUrl: queueUrl || '',
-          Entries: response.Messages.map((message) => ({
-            Id: message.MessageId,
-            ReceiptHandle: message.ReceiptHandle,
-          })),
-        };
-
-        const deleted = await sqs.deleteMessageBatch(deleteParams).promise();
-        console.log('deleted', deleted);
-
-        // Continue polling for more messages with custom interval (30s)
-        setTimeout(poll, 30000);
-      }
-    };
-
-    (async function () {
-      await poll();
-    })();
-
+      console.log('Lambda response', data);
+      console.log(new Date());
+     }
   </script>
 </body>
 
